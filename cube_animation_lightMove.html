@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Three.js</title>
+  <script src="javascript/three_r55.js"></script>
+  <style>
+    div#canvas-frame {
+      width: 500px;
+      height: 500px;
+    }
+  </style>
+  <script>
+    window.addEventListener("load", function() {
+      threeStart();
+    });
+
+    function threeStart() {
+      initThree();
+      initCamera();
+      initLight();
+      initObject();
+      // draw();をやめる
+      loop();
+    }
+
+    var renderer,
+        scene,
+        canvasFrame;
+
+    function initThree() {
+      canvasFrame = document.getElementById('canvas-frame');
+
+      // rendererオブジェクトを生成
+      renderer = new THREE.WebGLRenderer({ antialias: true});
+      if( !renderer ) alert('Three.jsの初期化に失敗しました');
+      renderer.setSize(canvasFrame.clientWidth, canvasFrame.clientHeight);
+      canvasFrame.appendChild(renderer.domElement);
+      //背景色とアルファ値
+      renderer.setClearColorHex(0xeeeeee, 1.0);
+      scene = new THREE.Scene();
+    }
+
+    var camera;
+    function initCamera() {
+      // PerspectiveCamera(fov, aspect, near, far)
+      // fov:視野角
+      // aspect:縦横比
+      // near: カメラから視野体積の手前までの距離
+      // far: カメラから視野体積の奥までの距離
+      camera = new THREE.PerspectiveCamera(45, canvasFrame.clientWidth / canvasFrame.clientHeight, 1, 10000);
+      // カメラの座標位置
+      camera.position.set(30, 30, 30);
+      // カメラの上ベクトルの設定
+      camera.up.set(0, 0, 1);
+      // カメラの視野中心座標の設定
+      camera.lookAt({x: 0, y: 0, z: 0});
+    }
+
+    var directionalLight;
+    function initLight() {
+      // DirectionalLight(hex, intensity)
+      // hex: 光源色
+      // intensity: 光源強度
+      directionalLight = new THREE.DirectionalLight(0xFFFFFF, 1.0)
+      directionalLight.position.set(50, 20, 100);
+      scene.add(directionalLight);
+    }
+
+    var axis,
+        cubes = [];
+    function initObject() {
+      // AxisHelper(軸の長さ)
+      axis = new THREE.AxisHelper(50);
+      scene.add(axis);
+      axis.position.set(0, 0, 0);
+
+      var geometry = new THREE.CubeGeometry(20, 20, 20);
+      var material = new THREE.MeshLambertMaterial({ color: 0xff0000 });
+      cubes[0] = new THREE.Mesh(geometry, material);
+      scene.add(cubes[0]);
+      cubes[0].position.set(0, -30, 0);
+
+      var material = new THREE.MeshLambertMaterial({ color: 0xff0000 });
+      cubes[1] = new THREE.Mesh(geometry, material);
+      scene.add(cubes[1]);
+      cubes[1].position.set(0, 0, 0);
+
+      var material = new THREE.MeshLambertMaterial({ color: 0xff0000 });
+      cubes[2] = new THREE.Mesh(geometry, material);
+      scene.add(cubes[2]);
+      cubes[2].position.set(0, 30, 0);
+    }
+
+    var step = 0;
+    function loop() {
+      step++;
+      // cubes[0].rotation.set(step / 600, 0, 0);
+      // cubes[1].rotation.set(0, step / 600, 0);
+      // cubes[2].rotation.set(0, 0, step / 600,);
+      // 60fpsの場合1秒間で0.6ラジアン、1回転に10秒
+
+      var cx = 100 * Math.cos(step / 150);
+      var cy = 100 * Math.sin(step / 150);
+
+      directionalLight.position.set(cx, cy, 100);
+
+      renderer.clear();
+      renderer.render(scene, camera);
+      requestAnimationFrame(loop);
+    }
+  </script>
+</head>
+<body>
+  <div id="canvas-frame"></div>
+</body>
+</html>
