@@ -34,7 +34,30 @@
         plotDatas.push(data);
       }
 
-      $.jqplot("canvas-frame", plotDatas, null);
+      var options = {
+        axesDefaults: {
+          label: '',
+          min: null,
+          max: null,
+          tickInterval: null,
+          ticks: [],
+          numberTicks: undefined,
+          pad: 1.2,
+          tickOptions: {
+            show: true,
+            showLabel: true,
+            showMark: true,
+            mark: 'outside',
+            markSize: 10,
+            formatString: '',
+            showGridline: true
+          },
+          rendere: $.jqplot.LinearAxisRenderer,
+          rendererOptions: {}
+        }
+      };
+
+      $.jqplot("canvas-frame", plotDatas, options);
     }
   </script>
 </head>
