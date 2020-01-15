@@ -35,26 +35,21 @@
       }
 
       var options = {
-        axesDefaults: {
-          label: '',
-          min: null,
-          max: null,
-          tickInterval: null,
-          ticks: [],
-          numberTicks: undefined,
-          pad: 1.2,
-          tickOptions: {
-            show: true,
-            showLabel: true,
-            showMark: true,
-            mark: 'outside',
-            markSize: 10,
-            formatString: '',
-            showGridline: true
+        axes: {
+          xaxis: {
+            label: 'x',
+            min: -2,
+            max: 2,
+            tickInterval: 0.5
           },
-          rendere: $.jqplot.LinearAxisRenderer,
-          rendererOptions: {}
+          yaxis: {
+            label: 'y',
+            min: 0,
+            max: 8,
+            tickInterval: 1.0
+          }
         }
+        
       };
 
       $.jqplot("canvas-frame", plotDatas, options);
