@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Three.js</title>
+  <style>
+  @import "./stylesheet/jquery.jqplot.css";
+  div#canvas-frame { width:500px; height: 400px;}
+  </style>
+  <script src="./javascript/jquery-1.8.3.js"></script>
+  <script src="./javascript/jquery.jqplot_1.0.4.js"></script>
+  <script src="./javascript/plugins/jqplot.canvasTextRenderer.js"></script>
+  <script src="./javascript/plugins/jqplot.canvasAxisTickRenderer.js"></script>
+  <script src="./javascript/plugins/jqplot.canvasAxisLabelRenderer.js"></script>
+  <script src="./javascript/plugins/jqplot.logAxisRenderer.js"></script>
+  <script src="./javascript/plugins/jqplot.highlighter.js"></script>
+  <script src="./javascript/plugins/jqplot.cursor.js"></script>
+  <script src="./javascript/plot2D_r1.js"></script>
+  <script>
+    window.addEventListener("load", function () {
+      plotStart();
+    });
+
+    function plotStart() {
+      var plot2D = new Plot2D('canvas-frame');
+      var series = [];
+
+      var
+        N = 20,
+        x_min = 0,
+        x_max = 2;
+
+      for (var a = 1; a <= 5; a++ ) {
+        data = [];
+        series.push({ label: 'y = pow(' + a + ' , x)'});
+
+        for (var i = 0; i <= N; i++) {
+          var x = x_min + (x_max - x_min) * i / N;
+          var y = Math.pow(a, x);
+          data.push([x, y]);
+        }
+        plot2D.pushData(data);
+      }
+      plot2D.options.series = series;
+      plot2D.options.legend.location = "nw";
+
+      plot2D.linerPlot();
+    }
+  </script>
+</head>
+<body>
+  <div id="canvas-frame"></div>
+</body>
+</html>
